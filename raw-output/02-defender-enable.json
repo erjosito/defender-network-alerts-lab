@@ -1,0 +1,37 @@
+{
+  "deprecated": null,
+  "enablementTime": "2026-03-11T14:56:11.039458+00:00",
+  "extensions": [
+    {
+      "additionalExtensionProperties": null,
+      "isEnabled": "False",
+      "name": "MdeDesignatedSubscription",
+      "operationStatus": null
+    },
+    {
+      "additionalExtensionProperties": {
+        "ExclusionTags": "[]"
+      },
+      "isEnabled": "True",
+      "name": "AgentlessVmScanning",
+      "operationStatus": {
+        "code": "Succeeded",
+        "message": "Successfully enabled extension"
+      }
+    },
+    {
+      "additionalExtensionProperties": null,
+      "isEnabled": "False",
+      "name": "FileIntegrityMonitoring",
+      "operationStatus": null
+    }
+  ],
+  "freeTrialRemainingTime": "0:00:00",
+  "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Security/pricings/VirtualMachines",
+  "name": "VirtualMachines",
+  "pricingTier": "Standard",
+  "replacedBy": null,
+  "subPlan": "P2",
+  "type": "Microsoft.Security/pricings"
+}
+

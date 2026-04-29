@@ -1,0 +1,39 @@
+graph TB
+    subgraph Internet["☁️ Internet"]
+        direction TB
+    end
+
+    subgraph AzureSwedenCentral["Azure - swedencentral"]
+        subgraph RG["Resource Group: lab-defender-alerts"]
+            subgraph AttackerVNet["Attacker VNet<br/>10.0.0.0/16"]
+                A1["🖥️ attacker-1<br/>B2als_v2<br/>PIP: 4.225.217.242"]
+                A2["🖥️ attacker-2<br/>B2als_v2<br/>PIP: 4.165.128.138"]
+                A3["🖥️ attacker-3<br/>B2als_v2<br/>PIP: 20.240.92.4"]
+            end
+            
+            subgraph TargetVNet["Target VNet<br/>10.1.0.0/16"]
+                TL["🐧 target-linux<br/>B2ats_v2<br/>Ubuntu 22.04<br/>PIP: 135.225.24.106"]
+                TW["🪟 target-win<br/>B2als_v2<br/>Win Server 2022<br/>PIP: 20.91.142.32"]
+            end
+            
+            DefenderForCloud["🛡️ Defender for Cloud<br/>Servers P2"]
+        end
+    end
+
+    A1 -->|"SSH Brute Force<br/>hydra 300 attempts"| TL
+    A2 -->|"SSH Brute Force<br/>hydra 300 attempts"| TL
+    A3 -->|"SSH Brute Force<br/>hydra 300 attempts"| TL
+    A3 -->|"RDP SYN Flood<br/>hping3 500 pkts"| TW
+    A1 -->|"RDP SYN<br/>300 pkts"| TW
+    A2 -->|"RDP SYN<br/>300 pkts"| TW
+    A2 -->|"Port Scan<br/>nmap 1-65535"| TL
+    A3 -->|"DDoS SYN Flood<br/>2.2M packets"| TL
+    A1 -.->|"SSH Sweep<br/>100 random IPs"| Internet
+    A2 -.->|"RDP Sweep<br/>100 random IPs"| Internet
+
+    DefenderForCloud -.->|"monitors"| TL
+    DefenderForCloud -.->|"monitors"| TW
+
+    style AttackerVNet fill:#ffcccc,stroke:#cc0000
+    style TargetVNet fill:#ccffcc,stroke:#00cc00
+    style DefenderForCloud fill:#cce5ff,stroke:#0066cc

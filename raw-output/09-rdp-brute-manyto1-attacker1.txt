@@ -1,0 +1,12 @@
+Enable succeeded: 
+[stdout]
+RDP-many2one-start
+
+--- 20.91.142.32 hping statistic ---
+300 packets transmitted, 0 packets received, 100% packet loss
+round-trip min/avg/max = 0.0/0.0/0.0 ms
+HPING 20.91.142.32 (eth0 20.91.142.32): S set, 40 headers + 0 data bytes
+RDP-many2one-done
+
+[stderr]
+

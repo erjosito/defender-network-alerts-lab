@@ -1,0 +1,12 @@
+Enable succeeded: 
+[stdout]
+DDoS-start
+
+--- 135.225.24.106 hping statistic ---
+2229201 packets transmitted, 0 packets received, 100% packet loss
+round-trip min/avg/max = 0.0/0.0/0.0 ms
+HPING 135.225.24.106 (eth0 135.225.24.106): S set, 40 headers + 0 data bytes
+DDoS-done
+
+[stderr]
+

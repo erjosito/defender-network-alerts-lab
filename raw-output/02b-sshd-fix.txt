@@ -1,0 +1,13 @@
+Enable succeeded: 
+[stdout]
+
+[stderr]
+ssh.service is not active, cannot reload.
+/etc/ssh/sshd_config line 18: Deprecated option UsePrivilegeSeparation
+/etc/ssh/sshd_config line 21: Deprecated option KeyRegenerationInterval
+/etc/ssh/sshd_config line 22: Deprecated option ServerKeyBits
+/etc/ssh/sshd_config line 33: Deprecated option RSAAuthentication
+/etc/ssh/sshd_config line 40: Deprecated option RhostsRSAAuthentication
+Unable to load host key: /etc/ssh/ssh_host_dsa_key
+Missing privilege separation directory: /run/sshd
+

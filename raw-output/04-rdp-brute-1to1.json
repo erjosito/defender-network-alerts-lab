@@ -1,0 +1,11 @@
+{
+  "value": [
+    {
+      "code": "ProvisioningState/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": "Enable succeeded: \n[stdout]\n[04/29/2026 09:30:45] Starting RDP brute force against 20.91.142.32\n\n[stderr]\n"
+    }
+  ]
+}
+

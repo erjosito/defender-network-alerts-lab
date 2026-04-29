@@ -1,0 +1,13 @@
+Enable succeeded: 
+[stdout]
+Starting Nmap 7.80 ( https://nmap.org ) at 2026-04-29 08:01 UTC
+Nmap scan report for 135.225.24.106
+Host is up (0.00075s latency).
+Not shown: 9999 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 21.01 seconds
+
+[stderr]
+

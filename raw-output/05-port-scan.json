@@ -1,0 +1,11 @@
+{
+  "value": [
+    {
+      "code": "ProvisioningState/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": "Enable succeeded: \n[stdout]\n[04/29/2026 09:30:45] Starting port scan against 135.225.24.106\n\n[stderr]\n"
+    }
+  ]
+}
+

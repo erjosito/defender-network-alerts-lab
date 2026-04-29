@@ -1,0 +1,15 @@
+{
+  "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/lab-defender-alerts-20260429-091910",
+  "location": "swedencentral",
+  "managedBy": null,
+  "name": "lab-defender-alerts-20260429-091910",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "created_by": "copilot-lab",
+    "lab": "true"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
