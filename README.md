@@ -168,7 +168,11 @@ All 10000 scanned ports: 1 open, 1 filtered, 9998 closed
 2238172 packets transmitted, 0 packets received, 100% packet loss
 ```
 
-## Alerts Detected
+## Evidence
+
+### Alert Summary Dashboard
+
+![Alert Results](screenshots/evidence-report.png)
 
 ### MDE Endpoint Alerts (detected within ~15 minutes)
 
@@ -176,17 +180,17 @@ All 10000 scanned ports: 1 open, 1 filtered, 9998 closed
 
 These were triggered by the SSH brute force scenarios. MDE detected the failed `sshd` login attempts at the operating system level.
 
-| Alert | Severity | Entity | MITRE Tactic | Product |
-|---|---|---|---|---|
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
-| Unusual number of failed sign-in attempts | Medium | target-linux | CredentialAccess | Microsoft Defender ATP |
+| # | Alert ID | Severity | Entity | MITRE Tactic | Status | Time (UTC) |
+|---|---|---|---|---|---|---|
+| 1 | `2c90b1c6-e0d9-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
+| 2 | `2924a38b-362b-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
+| 3 | `9d963023-3192-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
+| 4 | `8fac4c6c-8f91-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
+| 5 | `110b3ab5-ca75-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
+| 6 | `1ce0291e-283c-...` | 🟡 Medium | target-linux | CredentialAccess | 🟢 Active | 10:05:12 |
 
 <details>
-<summary>Sample alert JSON</summary>
+<summary>📄 Full alert JSON (click to expand)</summary>
 
 ```json
 {
@@ -195,15 +199,94 @@ These were triggered by the SSH brute force scenarios. MDE detected the failed `
   "severity": "Medium",
   "intent": "CredentialAccess",
   "compromisedEntity": "target-linux",
-  "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.",
+  "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nBrute force attempt for user 'Account: target-linux\\user'",
   "productName": "Microsoft Defender ATP",
   "productComponentName": "Servers",
-  "vendorName": "Microsoft",
-  "status": "Active"
+  "timeGeneratedUtc": "2026-04-29T10:05:12.867+02:00",
+  "status": "Active",
+  "entities": [
+    { "type": "file", "name": "sshd", "directory": "/usr/sbin/" },
+    { "type": "host", "hostName": "target-linux" },
+    { "type": "account", "name": "root", "ntDomain": "target-linux" },
+    { "type": "azure-resource", "resourceId": "/subscriptions/<sub>/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux" }
+  ],
+  "extendedProperties": {
+    "File Name": "sshd",
+    "File Path": "/usr/sbin/",
+    "Machine Name": "target-linux",
+    "User Name": "root"
+  }
 }
 ```
 
+> Full alert data: [`evidence/alerts/poll-3-full-detail.json`](evidence/alerts/poll-3-full-detail.json)
+
 </details>
+
+### Attack Execution Evidence
+
+#### SSH Brute Force (hydra → target-linux:22)
+
+```
+[ATTEMPT] target 135.225.24.106 - login "root" - pass "password" - 1 of 300 [child 0]
+[ATTEMPT] target 135.225.24.106 - login "root" - pass "123456" - 2 of 300 [child 1]
+[ATTEMPT] target 135.225.24.106 - login "admin" - pass "password" - 31 of 300 [child 0]
+...
+[STATUS] 300.00 tries/min, 300 tries in 00:01h, 0 to do
+0 of 300 target completed, 0 valid password found
+```
+
+> Full output: [`evidence/attacks/01-ssh-brute-force-1to1.txt`](evidence/attacks/01-ssh-brute-force-1to1.txt)
+
+#### Port Scan (nmap → target-linux)
+
+```
+Starting Nmap 7.80 ( https://nmap.org ) at 2026-04-29 08:01 UTC
+Nmap scan report for 135.225.24.106
+Host is up (0.00075s latency).
+Not shown: 9999 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 21.01 seconds
+```
+
+> Full output: [`evidence/attacks/05-port-scan.txt`](evidence/attacks/05-port-scan.txt)
+
+#### RDP SYN Flood (hping3 → target-win:3389)
+
+```
+HPING 20.91.142.32 (eth0 20.91.142.32): S set, 40 headers + 0 data bytes
+--- 20.91.142.32 hping statistic ---
+500 packets transmitted, 490 packets received, 2% packet loss
+round-trip min/avg/max = 1.3/2.1/14.2 ms
+```
+
+> Full output: [`evidence/attacks/03-rdp-syn-flood-1to1.txt`](evidence/attacks/03-rdp-syn-flood-1to1.txt)
+
+#### DDoS SYN Flood (hping3 --flood → target-linux:80)
+
+```
+HPING 135.225.24.106 (eth0 135.225.24.106): S set, 40 headers + 0 data bytes
+--- 135.225.24.106 hping statistic ---
+2229201 packets transmitted, 0 packets received, 100% packet loss
+round-trip min/avg/max = 0.0/0.0/0.0 ms
+```
+
+> Full output: [`evidence/attacks/08-ddos-syn-flood.txt`](evidence/attacks/08-ddos-syn-flood.txt)
+
+### Alert Timeline
+
+| Time (UTC) | Event | Source | Detection |
+|---|---|---|---|
+| 09:19 | Lab deployed, 5 VMs provisioned | Azure CLI | — |
+| 09:45 | SSH brute force: 300 attempts × 3 attackers | attacker-1,2,3 → target-linux | — |
+| 09:50 | RDP SYN flood: 500+ packets × 3 attackers | attacker-1,2,3 → target-win | — |
+| 09:55 | Port scan: nmap 1-10000 ports | attacker-2 → target-linux | — |
+| 10:00 | Outgoing sweeps + DDoS: 2.2M SYN packets | attacker-1,2,3 | — |
+| **10:05** | **⚠️ 6× MDE alerts triggered** | **MDE on target-linux** | **~15 min** |
+| 10:30 | Round 2: SSH brute force + full port scan 1-65535 | attacker-1,2,3 | — |
+| 10:56 | Poll: still 6 MDE alerts, no network-layer yet | Azure CLI | — |
 
 ### Network Layer Alerts (pending — 1-4 hour delay)
 
@@ -351,22 +434,35 @@ Plus 7 attack scripts in `/opt/attacker/`:
 
 ```
 ├── README.md                          # This file
-├── raw-output/
-│   ├── 01-rg-create.json             # Resource group creation
-│   ├── 02-defender-enable.json       # Defender for Cloud status
-│   ├── 02b-sshd-fix.txt             # SSH password auth fix
-│   ├── 03-ssh-brute-1to1.txt        # SSH brute force output
-│   ├── 04-rdp-brute-1to1.txt        # RDP SYN flood output
-│   ├── 05-port-scan.txt             # Port scan results
-│   ├── 06-ssh-brute-manyto1.txt     # Multi-source SSH brute
-│   ├── 07-outgoing-ssh-sweep.txt    # Outgoing SSH sweep
-│   ├── 08-outgoing-rdp-sweep.txt    # Outgoing RDP sweep
-│   ├── 09-rdp-brute-manyto1.txt     # Multi-source RDP brute
-│   ├── 10-ddos-simulation.txt       # DDoS SYN flood
-│   ├── 11-alerts-poll-1.json        # First alert poll
-│   └── 12-alerts-poll-2.json        # Second alert poll
-├── screenshots/                       # Portal screenshots
-└── diagrams/                         # Architecture diagrams
+├── evidence/
+│   ├── alerts/
+│   │   ├── poll-1-mde-alerts.json    # First alert poll (6 MDE alerts)
+│   │   ├── poll-2-mde-alerts.json    # Second alert poll
+│   │   ├── poll-3-full-detail.json   # Full alert JSON with entities
+│   │   └── sample-alert.json         # Single alert for reference
+│   └── attacks/
+│       ├── 01-ssh-brute-force-1to1.txt
+│       ├── 02-ssh-brute-force-manyto1.txt
+│       ├── 03-rdp-syn-flood-1to1.txt
+│       ├── 04a-rdp-syn-flood-manyto1-a1.txt
+│       ├── 04b-rdp-syn-flood-manyto1-a2.txt
+│       ├── 05-port-scan.txt
+│       ├── 06-outgoing-ssh-sweep.txt
+│       ├── 07-outgoing-rdp-sweep.txt
+│       └── 08-ddos-syn-flood.txt
+├── screenshots/
+│   ├── evidence-report.png           # Rendered evidence dashboard
+│   └── alerts-table-output.txt       # CLI table output
+├── diagrams/
+│   └── topology.mmd                  # Mermaid topology diagram
+├── raw-output/                        # Raw deployment & attack CLI output
+│   ├── 01-rg-create.json
+│   ├── 02-defender-enable.json
+│   ├── 03-ssh-brute-1to1.txt
+│   ├── ...
+│   ├── 12-alerts-poll-2.json
+│   └── cloud-init-attacker.yaml      # Attacker VM provisioning template
+└── vm-ips.json                        # VM IP address mapping
 ```
 
 ## References

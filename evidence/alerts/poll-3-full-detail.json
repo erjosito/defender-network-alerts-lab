@@ -1,0 +1,1308 @@
+[
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/2c90b1c6-e0d9-430d-8ef4-3f140d022721/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:04:00.644455+00:00",
+    "entities": [
+      {
+        "$id": "4",
+        "asset": false,
+        "directory": "/usr/sbin/",
+        "fileHashes": [
+          {
+            "$id": "5",
+            "algorithm": "SHA1",
+            "asset": false,
+            "friendlyName": "SHA1/cbcf9af2c7f15c9bf269fa6688b9ef0b89309525",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "cbcf9af2c7f15c9bf269fa6688b9ef0b89309525"
+          },
+          {
+            "$id": "6",
+            "algorithm": "MD5",
+            "asset": false,
+            "friendlyName": "MD5/901895cdb51384a89fb7c5742ccd0171",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "901895cdb51384a89fb7c5742ccd0171"
+          },
+          {
+            "$id": "7",
+            "algorithm": "SHA256",
+            "asset": false,
+            "friendlyName": "SHA256/815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615"
+          }
+        ],
+        "name": "sshd",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "file"
+      },
+      {
+        "$ref": "5",
+        "type": null
+      },
+      {
+        "$ref": "6",
+        "type": null
+      },
+      {
+        "$ref": "7",
+        "type": null
+      },
+      {
+        "$id": "8",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "9",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "8"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "10",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "File Name": "sshd",
+      "File Path": "/usr/sbin/",
+      "File Sha256": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/2c90b1c6-e0d9-430d-8ef4-3f140d022721",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "2c90b1c6-e0d9-430d-8ef4-3f140d022721",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.236636+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "1",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "2",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "3",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:04:00.644455+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "2c90b1c6-e0d9-430d-8ef4-3f140d022721",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.867000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  },
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/2924a38b-362b-761a-0d89-e1683d12c3d5/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:03:57.720181+00:00",
+    "entities": [
+      {
+        "$id": "14",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "15",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "14"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "16",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/2924a38b-362b-761a-0d89-e1683d12c3d5",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "2924a38b-362b-761a-0d89-e1683d12c3d5",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.243220+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "11",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "12",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "13",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:03:57.720181+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "2924a38b-362b-761a-0d89-e1683d12c3d5",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.730000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  },
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/9d963023-3192-bb6b-69ae-cdf50ec3befd/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:03:54.803547+00:00",
+    "entities": [
+      {
+        "$id": "20",
+        "asset": false,
+        "directory": "/usr/sbin/",
+        "fileHashes": [
+          {
+            "$id": "21",
+            "algorithm": "SHA1",
+            "asset": false,
+            "friendlyName": "SHA1/cbcf9af2c7f15c9bf269fa6688b9ef0b89309525",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "cbcf9af2c7f15c9bf269fa6688b9ef0b89309525"
+          },
+          {
+            "$id": "22",
+            "algorithm": "MD5",
+            "asset": false,
+            "friendlyName": "MD5/901895cdb51384a89fb7c5742ccd0171",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "901895cdb51384a89fb7c5742ccd0171"
+          },
+          {
+            "$id": "23",
+            "algorithm": "SHA256",
+            "asset": false,
+            "friendlyName": "SHA256/815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615"
+          }
+        ],
+        "name": "sshd",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "file"
+      },
+      {
+        "$ref": "21",
+        "type": null
+      },
+      {
+        "$ref": "22",
+        "type": null
+      },
+      {
+        "$ref": "23",
+        "type": null
+      },
+      {
+        "$id": "24",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "25",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "24"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "26",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "File Name": "sshd",
+      "File Path": "/usr/sbin/",
+      "File Sha256": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/9d963023-3192-bb6b-69ae-cdf50ec3befd",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "9d963023-3192-bb6b-69ae-cdf50ec3befd",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.404314+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "17",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "18",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "19",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:03:54.803547+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "9d963023-3192-bb6b-69ae-cdf50ec3befd",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.803000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  },
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/8fac4c6c-8f91-897c-0832-66a1c32a4765/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:02:08.640509+00:00",
+    "entities": [
+      {
+        "$id": "30",
+        "asset": false,
+        "directory": "/usr/sbin/",
+        "fileHashes": [
+          {
+            "$id": "31",
+            "algorithm": "SHA1",
+            "asset": false,
+            "friendlyName": "SHA1/cbcf9af2c7f15c9bf269fa6688b9ef0b89309525",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "cbcf9af2c7f15c9bf269fa6688b9ef0b89309525"
+          },
+          {
+            "$id": "32",
+            "algorithm": "MD5",
+            "asset": false,
+            "friendlyName": "MD5/901895cdb51384a89fb7c5742ccd0171",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "901895cdb51384a89fb7c5742ccd0171"
+          },
+          {
+            "$id": "33",
+            "algorithm": "SHA256",
+            "asset": false,
+            "friendlyName": "SHA256/815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615"
+          }
+        ],
+        "name": "sshd",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "file"
+      },
+      {
+        "$ref": "31",
+        "type": null
+      },
+      {
+        "$ref": "32",
+        "type": null
+      },
+      {
+        "$ref": "33",
+        "type": null
+      },
+      {
+        "$id": "34",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "35",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "34"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "36",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "File Name": "sshd",
+      "File Path": "/usr/sbin/",
+      "File Sha256": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/8fac4c6c-8f91-897c-0832-66a1c32a4765",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "8fac4c6c-8f91-897c-0832-66a1c32a4765",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.251394+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "27",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "28",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "29",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:02:08.640509+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "8fac4c6c-8f91-897c-0832-66a1c32a4765",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.710000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  },
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/110b3ab5-ca75-5f25-d002-3ffdacae29c0/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:02:06.318157+00:00",
+    "entities": [
+      {
+        "$id": "40",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "41",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "40"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "42",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/110b3ab5-ca75-5f25-d002-3ffdacae29c0",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "110b3ab5-ca75-5f25-d002-3ffdacae29c0",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.235395+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "37",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "38",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "39",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:02:06.318157+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "110b3ab5-ca75-5f25-d002-3ffdacae29c0",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.699000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  },
+  {
+    "alertDisplayName": "Unusual number of failed sign-in attempts",
+    "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+    "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security_AzureDefenderForData/AlertBlade/alertId/1ce0291e-283c-1b9b-ed9e-53fb7f526514/subscriptionId/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroup/lab-defender-alerts-20260429-091910/referencedFrom/alertDeepLink/location/centralus",
+    "compromisedEntity": "target-linux",
+    "correlationKey": "0gBO2Gt866BZQE08Cj1whD12GGtgMvFbxWDJcoShVZVqhpYgRLFsXht4mZO35cDxhSaQMbiqNqcVp/RoaLJzYA==",
+    "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+    "endTimeUtc": "2026-04-29T08:02:06.293950+00:00",
+    "entities": [
+      {
+        "$id": "46",
+        "asset": false,
+        "directory": "/usr/sbin/",
+        "fileHashes": [
+          {
+            "$id": "47",
+            "algorithm": "SHA1",
+            "asset": false,
+            "friendlyName": "SHA1/cbcf9af2c7f15c9bf269fa6688b9ef0b89309525",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "cbcf9af2c7f15c9bf269fa6688b9ef0b89309525"
+          },
+          {
+            "$id": "48",
+            "algorithm": "MD5",
+            "asset": false,
+            "friendlyName": "MD5/901895cdb51384a89fb7c5742ccd0171",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "901895cdb51384a89fb7c5742ccd0171"
+          },
+          {
+            "$id": "49",
+            "algorithm": "SHA256",
+            "asset": false,
+            "friendlyName": "SHA256/815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+            "rbacScopes": {
+              "scopesPerType": {
+                "Workloads": {
+                  "mode": "All",
+                  "scopes": [
+                    "Mdc"
+                  ]
+                }
+              }
+            },
+            "type": "filehash",
+            "value": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615"
+          }
+        ],
+        "name": "sshd",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "file"
+      },
+      {
+        "$ref": "47",
+        "type": null
+      },
+      {
+        "$ref": "48",
+        "type": null
+      },
+      {
+        "$ref": "49",
+        "type": null
+      },
+      {
+        "$id": "50",
+        "asset": true,
+        "dnsDomain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+        "entityIds": [
+          {
+            "id": "target-linux.gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+            "type": "DomainName"
+          }
+        ],
+        "hostName": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "host"
+      },
+      {
+        "$id": "51",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "domain=target-linux;samaccountname=root",
+            "type": "ActiveDirectorySAMAccountName"
+          }
+        ],
+        "host": {
+          "$ref": "50"
+        },
+        "isDomainJoined": false,
+        "name": "root",
+        "ntDomain": "target-linux",
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "type": "account"
+      },
+      {
+        "$id": "52",
+        "asset": true,
+        "entityIds": [
+          {
+            "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+            "resourceGroup": "lab-defender-alerts-20260429-091910",
+            "type": "AzureResourceId"
+          }
+        ],
+        "metadata": {
+          "IsGraphCenter": true
+        },
+        "rbacScopes": {
+          "scopesPerType": {
+            "Workloads": {
+              "mode": "All",
+              "scopes": [
+                "Mdc"
+              ]
+            }
+          }
+        },
+        "resourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "resourceName": "target-linux",
+        "resourceType": "Virtual Machine",
+        "type": "azure-resource"
+      }
+    ],
+    "extendedLinks": [
+      {
+        "href": "https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1",
+        "type": "webLink"
+      }
+    ],
+    "extendedProperties": {
+      "CompromisedEntity": "target-linux",
+      "EffectiveAzureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+      "EffectiveSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "File Name": "sshd",
+      "File Path": "/usr/sbin/",
+      "File Sha256": "815678ace71acb7b300dfd404a900659ade1b58edff4430029b4b46c6b299615",
+      "Machine Domain": "gkgwh0t4ta2ufbyksazv5z23dh.gvxx.internal.cloudapp.net",
+      "Machine Name": "target-linux",
+      "MachineId": "6445b8203b11cc01b683796bd037473a33d50a6f",
+      "Microsoft Defender for Endpoint link": "{\"displayValue\":\"Investigate in M365 Defender portal\",\"kind\":\"Link\",\"value\":\"https://security.microsoft.com/alerts/dac92255f8-ffc4-4b2f-8815-4487e48f7451_1\",\"alertBladeVisible\":true}",
+      "ProductComponentName": "Servers",
+      "User Domain": "target-linux",
+      "User Name": "root",
+      "WdatpTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+      "WorkspaceResourceGroup": "N/A",
+      "WorkspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+      "resourceType": "Virtual Machine"
+    },
+    "id": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourceGroups/lab-defender-alerts-20260429-091910/providers/Microsoft.Security/locations/centralus/alerts/1ce0291e-283c-1b9b-ed9e-53fb7f526514",
+    "intent": "CredentialAccess",
+    "isIncident": false,
+    "name": "1ce0291e-283c-1b9b-ed9e-53fb7f526514",
+    "processingEndTimeUtc": "2026-04-29T08:05:09.249939+00:00",
+    "productComponentName": "Servers",
+    "productName": "Microsoft Defender ATP",
+    "remediationSteps": [
+      "1. Make sure the machine is completely updated and all your software has the latest patch.",
+      "2. Contact your incident response team.",
+      "3. Install and run MicrosoftÆs Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx).",
+      "4. Run MicrosoftÆs Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx).",
+      "5. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)."
+    ],
+    "resourceGroup": "lab-defender-alerts-20260429-091910",
+    "resourceIdentifiers": [
+      {
+        "$id": "43",
+        "AzureResourceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "azureResourceId": "/subscriptions/a8fbd8e1-fb5a-4411-804a-4ac80929c93c/resourcegroups/lab-defender-alerts-20260429-091910/providers/microsoft.compute/virtualmachines/target-linux",
+        "type": "AzureResource"
+      },
+      {
+        "$id": "44",
+        "WorkspaceTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "agentId": null,
+        "type": "LogAnalytics",
+        "workspaceId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c",
+        "workspaceResourceGroup": "N/A",
+        "workspaceSubscriptionId": "a8fbd8e1-fb5a-4411-804a-4ac80929c93c"
+      },
+      {
+        "$id": "45",
+        "aadTenantId": "5ad00b69-0386-4c74-8adc-ac7a28649f34",
+        "type": null
+      }
+    ],
+    "severity": "Medium",
+    "startTimeUtc": "2026-04-29T08:02:06.293950+00:00",
+    "status": "Active",
+    "subTechniques": null,
+    "supportingEvidence": null,
+    "systemAlertId": "1ce0291e-283c-1b9b-ed9e-53fb7f526514",
+    "techniques": null,
+    "timeGeneratedUtc": "2026-04-29T08:05:12.710000+00:00",
+    "type": "Microsoft.Security/Locations/alerts",
+    "vendorName": "Microsoft",
+    "version": "2022-01-01.0"
+  }
+]

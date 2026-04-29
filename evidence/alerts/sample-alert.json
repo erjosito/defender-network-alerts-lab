@@ -1,0 +1,12 @@
+{
+  "alertDisplayName": "Unusual number of failed sign-in attempts",
+  "alertType": "VM.MDATP_32bb6594-fac7-49f8-9c6f-aa633b1c7326",
+  "severity": "Medium",
+  "intent": "CredentialAccess",
+  "compromisedEntity": "target-linux",
+  "description": "A relatively high number of failed sign-in attempts were observed during a short period. This activity can indicate an attempt to brute-force credentials.\n\nFor more information, read the IoT devices and Linux-based systems targeted by OpenSSH trojan campaign Threat Analytics report: https://security.microsoft.com/threatanalytics3/59e6e47e-9992-4d3c-b46e-d5cd825d89c6/analystreport?\n\r\nBrute force attempt for user 'Account: target-linux\\user  - 4294967295'",
+  "productName": "Microsoft Defender ATP",
+  "productComponentName": "Servers",
+  "timeGeneratedUtc": "2026-04-29T10:05:12.867+02:00",
+  "status": "Active"
+}

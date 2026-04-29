@@ -1,0 +1,7 @@
+Enable succeeded: 
+[stdout]
+Starting outgoing RDP sweep
+RDP sweep completed: 100 attempts
+
+[stderr]
+
