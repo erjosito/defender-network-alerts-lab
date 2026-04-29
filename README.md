@@ -298,6 +298,100 @@ Network-layer alerts are based on Azure's network traffic flow sampling. This is
 
 We ran two rounds of attacks to maximize detection probability. Results will be updated as alerts appear.
 
+## How Network-Layer Alerts Differ from MDE Endpoint Alerts
+
+Understanding *why* these two detection layers behave so differently is critical for security teams.
+
+### Detection Architecture Comparison
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    AZURE NETWORK FABRIC (Core Routers)                       │
+│                                                                             │
+│   Traffic In ───►  [IPFIX Sampling] ───► Sampled Packet Headers             │
+│                         │                                                   │
+│                         ▼                                                   │
+│              ┌─────────────────────┐                                        │
+│              │  Defender for Cloud  │                                        │
+│              │  ML Models + Threat  │◄── Microsoft Threat Intelligence DB    │
+│              │  Intelligence Feed   │                                        │
+│              └──────────┬──────────┘                                        │
+│                         │ (1-4 hours aggregation)                           │
+│                         ▼                                                   │
+│              ┌─────────────────────┐                                        │
+│              │  NETWORK LAYER      │  SSH_Incoming_BF, PortScanning, DDOS   │
+│              │  SECURITY ALERTS    │  (based on traffic flow patterns)       │
+│              └─────────────────────┘                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    VIRTUAL MACHINE (OS Level)                                │
+│                                                                             │
+│   Traffic In ───► [sshd / RDP Service] ───► Auth Logs ───► MDE Agent        │
+│                                                               │             │
+│                                                               ▼             │
+│                                              ┌─────────────────────┐        │
+│                                              │  Microsoft Defender  │        │
+│                                              │  for Endpoint (MDE)  │        │
+│                                              └──────────┬──────────┘        │
+│                                                         │ (~15 min)         │
+│                                                         ▼                   │
+│                                              ┌─────────────────────┐        │
+│                                              │  MDE ENDPOINT       │        │
+│                                              │  SECURITY ALERTS    │        │
+│                                              └─────────────────────┘        │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Technical Differences
+
+| Aspect | Network-Layer Alerts | MDE Endpoint Alerts |
+|---|---|---|
+| **Data Source** | IPFIX sampled packet headers from Azure core routers | OS-level process telemetry, auth logs, file events |
+| **Detection Point** | Azure network fabric (before packets reach the VM) | Inside the VM (MDE agent on the OS) |
+| **Sampling** | ⚠️ **Sampled** — only a fraction of packet headers are captured | ✅ **Complete** — all OS events are logged |
+| **Detection Speed** | 1-4 hours (batch aggregation + ML model inference) | ~15 minutes (near real-time stream processing) |
+| **Detection Method** | ML models + behavioral analytics on flow metadata | Signature matching + behavioral analysis on endpoint telemetry |
+| **What It Sees** | Source IP, dest IP, ports, packet counts, byte counts, flags | Process tree, command lines, file hashes, user accounts, registry |
+| **Blind Spots** | Low-volume attacks may be missed due to sampling | Only detects attacks that reach and execute on the OS |
+| **Unique Value** | Detects pre-OS traffic (DDoS, network sweeps, C2 beaconing) | Detects post-exploitation (credential theft, lateral movement) |
+
+### Why Network-Layer Alerts Take 1-4 Hours
+
+From [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/defender-for-cloud/other-threat-protections#network-layer):
+
+> *"Defender for Cloud network-layer analytics are based on sample **IPFIX data**, which are packet headers collected by Azure core routers. Based on this data feed, Defender for Cloud uses machine learning models to identify and flag malicious traffic activities."*
+
+The delay comes from three factors:
+
+1. **IPFIX Sampling** — Azure core routers export only a *sample* of packet headers (not all traffic). This is the [IP Flow Information Export](https://en.wikipedia.org/wiki/IP_Flow_Information_Export) standard. The sampling rate is not publicly documented, but it means low-volume attacks may never be sampled.
+
+2. **Batch Aggregation** — Sampled flows are aggregated over time windows before being fed to ML models. The models need enough data points to distinguish attacks from normal traffic. A single burst may not be enough without surrounding context.
+
+3. **ML Model Inference** — Behavioral analytics models compare observed patterns against baselines. For newly created VMs (like our lab), there is **no baseline** — the model must rely purely on absolute thresholds rather than anomaly detection relative to normal behavior.
+
+### Prerequisites for Network-Layer Alerts
+
+Microsoft documents two hard requirements:
+
+1. **Public IP address** — the VM must have a public IP (or be behind a load balancer with one). ✅ We meet this.
+2. **No external IDS blocking egress** — network egress must not be blocked by an external IDS solution. ✅ We meet this.
+
+However, there's an additional implicit factor: the IPFIX sampling must actually capture enough of your traffic to trigger the ML model. This is **probabilistic**, not guaranteed.
+
+### Practical Implications for Security Teams
+
+| Scenario | Best Detector | Why |
+|---|---|---|
+| SSH/RDP brute force | **MDE** (fast, reliable) | Sees every failed login attempt in auth logs |
+| Port scanning from external | **Network layer** (only option) | Traffic may not reach OS if ports are filtered |
+| DDoS volumetric attack | **Network layer** (designed for this) | Detects at fabric level before overwhelming the VM |
+| Outgoing C2 beaconing | **Network layer** | Detects known-bad IP communication at flow level |
+| Post-exploitation lateral movement | **MDE** | Sees process execution, credential dumping |
+| Crypto mining traffic patterns | **Network layer** | Detects mining pool communication patterns |
+
+**Recommendation:** Enable both layers. MDE provides fast, reliable detection for attacks that reach the OS. Network-layer adds coverage for traffic patterns visible only at the fabric level.
+
 ## Lessons Learned
 
 ### 1. MDE vs Network-Layer Detection
