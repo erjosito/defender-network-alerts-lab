@@ -1,0 +1,24 @@
+=== CROSS-REGION ATTACK VALIDATION ===
+Hypothesis: Intra-region traffic bypasses Azure core router IPFIX sampling points.
+Test: Deploy attacker in different region to force traffic across core routers.
+
+Attacker: attacker-4-france (20.111.11.211) - francecentral
+Target: target-linux (135.225.24.106) - swedencentral
+Time: 2026-04-29 10:27-10:34 UTC
+
+Attacks Executed:
+1. SSH Brute Force: hydra x3 usernames (azurelabuser, root, admin) = ~90 attempts
+2. Extended SSH Brute Force: 600+ attempts (expanded wordlist x2 users)
+3. Port Scan: nmap top 1000 ports (0.54s, cross-region latency 38ms)
+4. SYN Flood: hping3 --flood ports 22,80,443 x 60s each = 2.8M+ packets per port
+5. Full Port Scan: nmap -p- all 65535 ports (9.6s @ 5000 pps min-rate)
+6. EXTRA: SYN flood ports 3389,8080 + hydra 5 additional usernames
+
+Total traffic generated:
+- ~8.5M+ SYN packets (5 ports x 60s flood each)
+- ~65535 TCP connection attempts (full port scan)
+- ~800+ SSH authentication attempts
+- Cross-region path: francecentral -> Azure backbone -> swedencentral
+
+This traffic MUST traverse Azure core routers (different regions = different datacenters).
+Will poll for network-layer alerts starting at ~11:30 UTC (1 hour after attacks).

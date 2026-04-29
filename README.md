@@ -19,13 +19,17 @@ This lab deploys attacker and target VMs in Azure to systematically trigger Defe
 
 ```mermaid
 graph TB
-    subgraph "Attacker VNet (10.0.0.0/16)"
+    subgraph "Attacker VNet - swedencentral (10.0.0.0/16)"
         A1["attacker-1<br/>4.225.217.242<br/>10.0.0.4"]
         A2["attacker-2<br/>4.165.128.138<br/>10.0.0.5"]
         A3["attacker-3<br/>20.240.92.4<br/>10.0.0.6"]
     end
+
+    subgraph "Attacker VNet - francecentral (10.5.0.0/16)"
+        A4["attacker-4-france<br/>20.111.11.211<br/>10.5.0.4<br/>⚡ CROSS-REGION"]
+    end
     
-    subgraph "Target VNet (10.1.0.0/16)"
+    subgraph "Target VNet - swedencentral (10.1.0.0/16)"
         TL["target-linux<br/>135.225.24.106<br/>10.1.0.4<br/>Ubuntu 22.04"]
         TW["target-win<br/>20.91.142.32<br/>10.1.0.5<br/>Windows Server 2022"]
     end
@@ -33,6 +37,7 @@ graph TB
     A1 -->|"SSH brute force<br/>hydra + hping3"| TL
     A2 -->|"Port scan<br/>nmap + hping3"| TL
     A3 -->|"SYN flood<br/>hping3 --flood"| TL
+    A4 -->|"SSH brute + SYN flood<br/>+ full port scan<br/>(CROSS-REGION)"| TL
     A1 -->|"SSH sweep<br/>nc to 100 IPs"| Internet((Internet))
     A2 -->|"RDP sweep<br/>nc to 100 IPs"| Internet
     A3 -->|"RDP brute<br/>hping3 SYN"| TW
@@ -40,13 +45,14 @@ graph TB
     A2 -->|"RDP brute<br/>hping3 SYN"| TW
 ```
 
-| Resource | Type | SKU | IP (Public) | IP (Private) |
-|---|---|---|---|---|
-| attacker-1 | Linux VM | Standard_B2als_v2 | 4.225.217.242 | 10.0.0.4 |
-| attacker-2 | Linux VM | Standard_B2als_v2 | 4.165.128.138 | 10.0.0.5 |
-| attacker-3 | Linux VM | Standard_B2als_v2 | 20.240.92.4 | 10.0.0.6 |
-| target-linux | Linux VM | Standard_B2ats_v2 | 135.225.24.106 | 10.1.0.4 |
-| target-win | Windows VM | Standard_B2als_v2 | 20.91.142.32 | 10.1.0.5 |
+| Resource | Type | SKU | Region | IP (Public) | IP (Private) |
+|---|---|---|---|---|---|
+| attacker-1 | Linux VM | Standard_B2als_v2 | swedencentral | 4.225.217.242 | 10.0.0.4 |
+| attacker-2 | Linux VM | Standard_B2als_v2 | swedencentral | 4.165.128.138 | 10.0.0.5 |
+| attacker-3 | Linux VM | Standard_B2als_v2 | swedencentral | 20.240.92.4 | 10.0.0.6 |
+| **attacker-4-france** | **Linux VM** | **Standard_D2as_v5** | **francecentral** | **20.111.11.211** | **10.5.0.4** |
+| target-linux | Linux VM | Standard_B2ats_v2 | swedencentral | 135.225.24.106 | 10.1.0.4 |
+| target-win | Windows VM | Standard_B2als_v2 | swedencentral | 20.91.142.32 | 10.1.0.5 |
 
 **Region:** swedencentral  
 **Resource Group:** `lab-defender-alerts-20260429-091910`  
@@ -429,6 +435,66 @@ For security teams designing detection:
 - **Sampling-based detection** is probabilistic — low-volume attacks may evade detection
 - **MDE provides faster detection** for attacks that reach the OS (brute force, exploitation)
 - **Network-layer adds value** for traffic patterns that don't generate OS events (DDoS, port scanning from external sources, C2 beaconing)
+
+## Cross-Region Validation Experiment
+
+### Hypothesis
+
+After 3.5 hours of attacks from within the same region (swedencentral) produced **zero network-layer alerts**, we hypothesized that intra-region traffic might bypass the Azure core routers where IPFIX sampling occurs.
+
+From [Microsoft's documentation](https://learn.microsoft.com/en-us/azure/defender-for-cloud/other-threat-protections#network-layer):
+> *"Defender for Cloud network-layer analytics are based on sample IPFIX data, which are packet headers collected by Azure core routers."*
+
+When both attacker and target are in the **same region**, traffic may be routed locally through Top-of-Rack (ToR) switches and the Software Load Balancer (SLB) — never reaching the "core routers" that export IPFIX data.
+
+### Test Design
+
+Deployed an additional attacker VM in **francecentral** to force traffic across Azure's regional backbone:
+
+```
+┌─────────────────────┐                      ┌─────────────────────┐
+│   FRANCECENTRAL     │                      │   SWEDENCENTRAL     │
+│                     │    Azure Backbone    │                     │
+│  attacker-4-france  │ ═══════════════════► │   target-linux      │
+│  20.111.11.211      │  (crosses core       │   135.225.24.106    │
+│  Standard_D2as_v5   │   routers w/ IPFIX)  │   Standard_B2ats_v2 │
+└─────────────────────┘                      └─────────────────────┘
+```
+
+### Attacks Executed (from francecentral → swedencentral)
+
+| # | Attack | Tool | Volume | Result |
+|---|---|---|---|---|
+| 1 | SSH Brute Force | hydra | ~90 attempts x3 users | Connected, all failed auth |
+| 2 | Extended SSH Brute Force | hydra (expanded wordlist) | 600+ attempts x2 users | Connected, all failed auth |
+| 3 | Port Scan (top 1000) | nmap -sT | 1000 ports, 38ms latency | Completed in 0.54s |
+| 4 | SYN Flood | hping3 --flood | **~8.5M packets** (ports 22,80,443 x 60s each) | 100% packet loss (expected) |
+| 5 | Full Port Scan | nmap -p- --min-rate 5000 | 65535 ports | Completed in 9.6s |
+| 6 | Additional SYN Flood + Brute | hping3 + hydra | ~5.7M packets + 150 SSH attempts | Completed |
+
+**Total cross-region traffic: ~14M+ packets, 800+ SSH attempts, 65535 port scan**
+
+### Results
+
+| Poll | Time After Attack | Network-Layer Alerts | Notes |
+|---|---|---|---|
+| Poll 1 | 1 hour | ⏳ Pending | — |
+| Poll 2 | 2 hours | ⏳ Pending | — |
+
+> ℹ️ Results will be updated as polls complete. Check `evidence/alerts/cross-region-poll-*.json` for raw data.
+
+### Interpretation
+
+If cross-region attacks trigger network-layer alerts while same-region attacks did not, this confirms:
+1. **Intra-region traffic does bypass IPFIX sampling** at Azure core routers
+2. **Network-layer alerts require traffic to cross regional boundaries** (or enter from the internet)
+3. **Lab topology matters** — attackers must be external to the target's region for network-layer detection
+
+If cross-region attacks also fail to trigger alerts, alternative explanations include:
+- Subscription-level Defender plan configuration issues
+- IPFIX sampling rate too low to catch our traffic volume
+- ML model requires longer baseline establishment for new VMs
+- Alert generation pipeline delays beyond the documented 1-4 hours
 
 ## Reproduction Steps
 
