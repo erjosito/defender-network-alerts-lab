@@ -633,9 +633,90 @@ Plus 7 attack scripts in `/opt/attacker/`:
 └── vm-ips.json                        # VM IP address mapping
 ```
 
+## DDoS Protection: Basic vs Standard Plan Impact
+
+### What We Used
+
+This lab ran with **Azure DDoS Infrastructure Protection (Basic)** only — the free, always-on layer applied to every Azure resource by default. We did **not** enable an [Azure DDoS Network Protection](https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview) plan.
+
+### Why This Matters
+
+| Aspect | DDoS Infrastructure (Basic) | DDoS Network Protection (Standard) |
+|---|---|---|
+| **Cost** | Free (always on) | ~$2,944/month + overage per public IP |
+| **Mitigation** | ✅ Silently drops obvious volumetric floods | ✅ Same + adaptive tuning per-resource |
+| **Alerts in Defender** | ❌ No customer-visible alerts | ✅ DDoS alerts with attack vectors, duration, stats |
+| **Telemetry** | ❌ None | ✅ Real-time metrics (packets dropped/forwarded, SYN counts) |
+| **Attack reports** | ❌ None | ✅ Post-attack flow analysis reports |
+| **Baselining** | Generic per-region thresholds | **Per-IP learned baselines** (adaptive) |
+
+### How This Likely Affected Our Results
+
+1. **Silent edge mitigation** — Our hping3 SYN floods (~14M packets) were almost certainly **silently dropped at the Azure edge** by Basic DDoS protection. This means the traffic may never have reached the core routers where IPFIX sampling feeds the network-layer alert pipeline. The 100% packet loss we observed in hping3 output is consistent with edge mitigation.
+
+2. **No DDoS-specific alerts** — With Basic protection, volumetric attack mitigation generates **zero customer-visible alerts**. The Standard plan would have generated dedicated DDoS alerts with detailed telemetry (attack vectors, peak packet rates, mitigation duration).
+
+3. **Missing adaptive baselines** — The Standard plan learns per-public-IP traffic baselines and alerts on deviations. This is precisely what our ephemeral VMs lacked. With Standard DDoS protection, the same SYN floods would likely have triggered alerts because the plan establishes baselines more aggressively than the passive IPFIX-based network-layer detection.
+
+### Detection Pipeline Comparison
+
+```
+                    ┌─────────────────────────────────────────────┐
+ Attack Traffic ──► │           AZURE EDGE                        │
+                    │                                             │
+                    │  ┌──────────────────────────┐               │
+                    │  │ DDoS Basic (free)        │               │
+                    │  │ • Silent volumetric drop  │──► DROPPED   │
+                    │  │ • No alerts, no telemetry │   (invisible) │
+                    │  └──────────────────────────┘               │
+                    │                                             │
+                    │  ┌──────────────────────────┐               │
+                    │  │ DDoS Standard ($2,944/mo) │               │
+                    │  │ • Adaptive per-IP baseline│──► DDoS Alerts│
+                    │  │ • Real-time metrics       │   (dedicated) │
+                    │  │ • Attack reports          │               │
+                    │  └──────────────────────────┘               │
+                    │                                             │
+                    │  Traffic that passes DDoS ──►               │
+                    │                                             │
+                    │  ┌──────────────────────────┐               │
+                    │  │ Core Routers (IPFIX)      │               │
+                    │  │ • Sampled packet headers  │──► Network    │
+                    │  │ • ML behavioral analytics │   Layer Alerts│
+                    │  │ • 1-4 hour aggregation    │   (passive)   │
+                    │  └──────────────────────────┘               │
+                    └─────────────────────────────────────────────┘
+                                      │
+                                      ▼
+                    ┌─────────────────────────────────────────────┐
+                    │           VIRTUAL MACHINE                    │
+                    │                                             │
+                    │  ┌──────────────────────────┐               │
+                    │  │ MDE Agent (on OS)         │               │
+                    │  │ • Auth log analysis       │──► MDE Alerts │
+                    │  │ • Process telemetry       │   (~15 min)   │
+                    │  └──────────────────────────┘               │
+                    └─────────────────────────────────────────────┘
+```
+
+### Suggested Follow-Up Experiment
+
+To properly test DDoS detection behavior and compare detection rates across all three layers:
+
+1. **Enable DDoS Network Protection** on the target VNet ($2,944/month — use for <1 day and delete)
+2. Re-run the same SYN flood attacks from a cross-region attacker
+3. Compare alert generation across all three detection pipelines:
+   - DDoS Protection alerts (expected: minutes, dedicated telemetry)
+   - Network-layer alerts (expected: 1-4 hours, IPFIX-based)
+   - MDE endpoint alerts (expected: ~15 min for auth failures)
+4. Measure whether DDoS Standard's edge mitigation blocks traffic from reaching IPFIX sampling points (hypothesis: yes, but Standard generates its own alerts to compensate)
+
+This would definitively answer whether the three detection layers are complementary or redundant for volumetric attacks.
+
 ## References
 
 - [Defender for Cloud Network Layer Alerts](https://learn.microsoft.com/en-us/azure/defender-for-cloud/alerts-azure-network-layer)
+- [Azure DDoS Network Protection Overview](https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview)
 - [Defender for Cloud Alert Schema](https://learn.microsoft.com/en-us/azure/defender-for-cloud/alerts-schemas)
 - [Azure Network Watcher](https://learn.microsoft.com/en-us/azure/network-watcher/)
 - [Hydra - Network Logon Cracker](https://github.com/vanhauser-thc/thc-hydra)
