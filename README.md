@@ -11,9 +11,20 @@ This lab deploys attacker and target VMs in Azure to systematically trigger Defe
 | Detection Layer | Alerts Triggered | Detection Time | Notes |
 |---|---|---|---|
 | **MDE Endpoint** (Defender for Endpoint) | ✅ 6 alerts | ~15 min | "Unusual number of failed sign-in attempts" — SSH brute force detected at OS level |
-| **Network Layer** (traffic sampling) | ⏳ Pending | 1–4 hours | Network-layer alerts use Azure traffic flow sampling; detection is probabilistic |
+| **Network Layer** (traffic sampling) | ❌ 0 alerts | >4 hours | Did NOT trigger despite 14M+ packets cross-region + 5+ hours same-region attacks |
 
-> **Insight:** MDE endpoint detection is significantly faster than network-layer detection. Brute force attempts are caught within minutes at the OS level via `sshd` log analysis, while network-layer alerts require traffic sampling and can take hours.
+> **Key Insight:** Network-layer alerts did **not fire** in this ephemeral lab environment — even with Defender for Servers P2 enabled, 14M+ SYN packets, 800+ SSH brute force attempts, full port scans, and attacks from a different Azure region. MDE endpoint detection remains the only reliable fast-detection mechanism for brute force attacks in lab/test environments.
+
+### Why Network-Layer Alerts Didn't Trigger
+
+After extensive testing across two phases (same-region and cross-region), we conclude the most likely explanations are:
+
+1. **No behavioral baseline** — ML models need days/weeks of normal traffic to establish what's anomalous. Our VMs were <6 hours old.
+2. **IPFIX sampling rate** — the probabilistic sampling may not have captured enough of our traffic to cross detection thresholds.
+3. **Ephemeral lab pattern** — newly provisioned VMs with no history may be deprioritized by the detection pipeline to avoid false positives during initial setup activity.
+4. **Threshold calibration** — Microsoft's models are tuned for production workloads with sustained attack patterns, not short lab bursts.
+
+**Confirmed NOT the cause:** Defender for Servers Plan 2 is enabled (`Standard` tier, `P2` subplan, enabled since 2026-03-11).
 
 ## Lab Topology
 
@@ -478,23 +489,20 @@ Deployed an additional attacker VM in **francecentral** to force traffic across 
 
 | Poll | Time After Attack | Network-Layer Alerts | Notes |
 |---|---|---|---|
-| Poll 1 | 1 hour | ⏳ Pending | — |
-| Poll 2 | 2 hours | ⏳ Pending | — |
+| Poll 1 | 1 hour | ❌ 0 | Same-region attacks also had 0 at this point |
+| Poll 2 | 2 hours | ❌ 0 | — |
+| **Poll 3 (final)** | **4 hours** | **❌ 0** | **Experiment concluded — no network-layer alerts triggered** |
 
-> ℹ️ Results will be updated as polls complete. Check `evidence/alerts/cross-region-poll-*.json` for raw data.
+### Conclusion
 
-### Interpretation
+Cross-region attacks (francecentral → swedencentral) also **failed to trigger network-layer alerts** after 4 hours. This rules out the intra-region routing hypothesis as the sole explanation.
 
-If cross-region attacks trigger network-layer alerts while same-region attacks did not, this confirms:
-1. **Intra-region traffic does bypass IPFIX sampling** at Azure core routers
-2. **Network-layer alerts require traffic to cross regional boundaries** (or enter from the internet)
-3. **Lab topology matters** — attackers must be external to the target's region for network-layer detection
+The most likely root cause is that **ephemeral lab VMs lack the behavioral baseline** that the ML models need to distinguish attacks from normal traffic. In production environments with established traffic patterns, the same attacks would likely be flagged as anomalous within the documented 1-4 hour window.
 
-If cross-region attacks also fail to trigger alerts, alternative explanations include:
-- Subscription-level Defender plan configuration issues
-- IPFIX sampling rate too low to catch our traffic volume
-- ML model requires longer baseline establishment for new VMs
-- Alert generation pipeline delays beyond the documented 1-4 hours
+**Implication for security testing:** Network-layer alerts cannot be reliably tested in short-lived lab environments. Testing requires either:
+- Long-lived VMs (days/weeks) with established traffic baselines
+- Microsoft's own test/demo environments with pre-configured detection rules
+- Acceptance that only MDE endpoint alerts are reliably testable in ephemeral labs
 
 ## Reproduction Steps
 

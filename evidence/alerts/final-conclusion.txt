@@ -1,0 +1,24 @@
+=== FINAL CROSS-REGION ALERT POLL (4 hours post-attack) ===
+Time: 2026-04-29 14:34:35 UTC
+Attacks started: 2026-04-29 10:27 UTC (from francecentral)
+
+Result: 0 network-layer alerts
+Total RG alerts: 0 (MDE alerts also cleared/expired)
+Subscription non-MDE alerts: 0
+
+Defender Plan Status:
+- VirtualMachines: Standard tier, P2 subplan (enabled 2026-03-11)
+- SqlServers: Standard tier
+- AppServices: Standard tier
+- StorageAccounts: Standard tier (with malware scanning)
+
+Conclusion: Network-layer alerts did NOT trigger despite:
+- 14M+ SYN flood packets (cross-region, francecentral -> swedencentral)
+- 800+ SSH brute force attempts (cross-region)
+- 65535 port full scan (cross-region)
+- 5+ hours of same-region attacks prior
+- Defender for Servers Plan 2 enabled
+- Public IP on target VM
+- No external IDS blocking egress
+
+Most likely cause: Ephemeral VMs with no behavioral baseline for ML model comparison.
